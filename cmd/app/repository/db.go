@@ -169,6 +169,13 @@ func (r *UserRepository) InsertSession(ctx context.Context, session *models.Sess
 	return session.ID, nil
 }
 
+// DeleteSessionsByUserID menghapus semua session untuk user (dipakai saat logout)
+func (r *UserRepository) DeleteSessionsByUserID(ctx context.Context, userID int64) error {
+	return r.Database.WithContext(ctx).
+		Where("user_id = ?", userID).
+		Delete(&models.Session{}).Error
+}
+
 func (r *UserRepository) UseOtp(ctx context.Context, otp string, userID uint64) (bool, error) {
 	err := r.Database.WithContext(ctx).
 		Model(&models.Otps{}).

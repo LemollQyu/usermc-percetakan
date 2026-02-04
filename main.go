@@ -11,6 +11,7 @@ import (
 	"usermc/config"
 	grpcUser "usermc/grpc"
 	"usermc/infrastructure/log"
+	"usermc/middleware"
 
 	"usermc/proto/userpb"
 	"usermc/routes"
@@ -44,6 +45,7 @@ func main() {
 	port := cfg.App.Port
 
 	router := gin.Default()
+	router.Use(middleware.CORS([]string{"http://localhost:3000", "http://localhost:3001"}))
 	routes.SetupRoutes(router, *userHandler, cfg.Secret.JWTSecret)
 
 	// ---- HTTP SERVER ----

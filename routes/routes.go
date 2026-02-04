@@ -45,6 +45,8 @@ func SetupRoutes(router *gin.Engine, userHandler handler.UserHandler, jwtSecret 
 
 	// user biasa
 	private.GET("/user-info", userHandler.GetUserInfo)
+	// logout (user & admin pakai route yang sama; user: hapus session, admin: hanya 200)
+	private.POST("/logout", userHandler.Logout)
 
 	// admin only
 	admin := private.Group("/admin")

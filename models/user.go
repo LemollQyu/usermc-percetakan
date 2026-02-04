@@ -4,8 +4,8 @@ import "time"
 
 type User struct {
 	ID              int64     `json:"id" gorm:"primaryKey;autoIncrement"`
-	Username        string    `json:"username"`
-	Name            string    `json:"name"`
+	Username        string    `json:"username" gorm:"column:username"`
+	Name            string    `json:"name" gorm:"column:name"`
 	Email           string    `json:"email"`
 	Phone           *string   `json:"phone"`
 	AvatarURL       *string   `json:"avatar_url"`

@@ -688,11 +688,21 @@ func (h *UserHandler) GetUserInfo(c *gin.Context) {
 		return
 	}
 
+	// Username dari DB; fallback email/phone hanya jika kosong (e.g. user Google), jangan pakai name
+	username := user.Username
+	if username == "" {
+		username = user.Email
+	}
+	if username == "" && user.Phone != nil {
+		username = *user.Phone
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"id":         user.ID,
-		"name":       user.Name,
-		"email":      user.Email,
-		"phone":      user.Phone,
+		"username":  username,
+		"name":      user.Name,
+		"email":     user.Email,
+		"phone":     user.Phone,
 		"avatar_url": user.AvatarURL,
 	})
 }
@@ -1098,5 +1108,36 @@ func (h *UserHandler) GetAdminInfo(c *gin.Context) {
 		"email":      admin.Email,
 		"phone":      admin.Phone,
 		"avatar_url": admin.AvatarURL,
+	})
+}
+
+// Logout menghapus session user di server (user: hapus session; admin: tidak punya session, tetap 200)
+func (h *UserHandler) Logout(c *gin.Context) {
+	userIDAny, exists := c.Get("user_id")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error_message": "unauthorized",
+		})
+		return
+	}
+
+	userID, ok := userIDAny.(int64)
+	if !ok {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error_message": "invalid token",
+		})
+		return
+	}
+
+	if err := h.UserUsecase.Logout(c.Request.Context(), userID); err != nil {
+		log.Logger.Errorf("Logout error: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error_message": "internal server error",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Logout berhasil",
 	})
 }

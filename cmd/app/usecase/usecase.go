@@ -207,6 +207,11 @@ func (uc *UserUsecase) InsertSession(ctx context.Context, session *models.Sessio
 	return sessionID, nil
 }
 
+// Logout menghapus session user di server (user biasa punya session; admin tidak punya session, tetap return nil)
+func (uc *UserUsecase) Logout(ctx context.Context, userID int64) error {
+	return uc.UserService.DeleteSessionsByUserID(ctx, userID)
+}
+
 func (uc *UserUsecase) UseOtp(ctx context.Context, otp string, userID uint64) (bool, error) {
 	used, err := uc.UserService.UseOtp(ctx, otp, userID)
 	if err != nil {

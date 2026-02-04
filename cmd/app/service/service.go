@@ -198,6 +198,10 @@ func (svc *UserService) InsertSession(ctx context.Context, session *models.Sessi
 	return sessionID, nil
 }
 
+func (svc *UserService) DeleteSessionsByUserID(ctx context.Context, userID int64) error {
+	return svc.UserRepo.DeleteSessionsByUserID(ctx, userID)
+}
+
 func (svc *UserService) UseOtp(ctx context.Context, otp string, userID uint64) (bool, error) {
 	used, err := svc.UserRepo.UseOtp(ctx, otp, userID)
 	if err != nil {
