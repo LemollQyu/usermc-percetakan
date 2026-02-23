@@ -65,6 +65,50 @@ func (x *GetUserInfoRequest) GetUserId() int64 {
 	return 0
 }
 
+type GetUsersByIDsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserIds       []int64                `protobuf:"varint,1,rep,packed,name=user_ids,json=userIds,proto3" json:"user_ids,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUsersByIDsRequest) Reset() {
+	*x = GetUsersByIDsRequest{}
+	mi := &file_proto_user_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUsersByIDsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUsersByIDsRequest) ProtoMessage() {}
+
+func (x *GetUsersByIDsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_user_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUsersByIDsRequest.ProtoReflect.Descriptor instead.
+func (*GetUsersByIDsRequest) Descriptor() ([]byte, []int) {
+	return file_proto_user_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *GetUsersByIDsRequest) GetUserIds() []int64 {
+	if x != nil {
+		return x.UserIds
+	}
+	return nil
+}
+
 type GetUserInfoResult struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -79,7 +123,7 @@ type GetUserInfoResult struct {
 
 func (x *GetUserInfoResult) Reset() {
 	*x = GetUserInfoResult{}
-	mi := &file_proto_user_proto_msgTypes[1]
+	mi := &file_proto_user_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -91,7 +135,7 @@ func (x *GetUserInfoResult) String() string {
 func (*GetUserInfoResult) ProtoMessage() {}
 
 func (x *GetUserInfoResult) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_user_proto_msgTypes[1]
+	mi := &file_proto_user_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -104,7 +148,7 @@ func (x *GetUserInfoResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserInfoResult.ProtoReflect.Descriptor instead.
 func (*GetUserInfoResult) Descriptor() ([]byte, []int) {
-	return file_proto_user_proto_rawDescGZIP(), []int{1}
+	return file_proto_user_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetUserInfoResult) GetId() int64 {
@@ -149,13 +193,59 @@ func (x *GetUserInfoResult) GetRole() string {
 	return ""
 }
 
+type GetUsersByIDsResult struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Users         []*GetUserInfoResult   `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUsersByIDsResult) Reset() {
+	*x = GetUsersByIDsResult{}
+	mi := &file_proto_user_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUsersByIDsResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUsersByIDsResult) ProtoMessage() {}
+
+func (x *GetUsersByIDsResult) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_user_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUsersByIDsResult.ProtoReflect.Descriptor instead.
+func (*GetUsersByIDsResult) Descriptor() ([]byte, []int) {
+	return file_proto_user_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetUsersByIDsResult) GetUsers() []*GetUserInfoResult {
+	if x != nil {
+		return x.Users
+	}
+	return nil
+}
+
 var File_proto_user_proto protoreflect.FileDescriptor
 
 const file_proto_user_proto_rawDesc = "" +
 	"\n" +
 	"\x10proto/user.proto\x12\x04user\"-\n" +
 	"\x12GetUserInfoRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\"\x96\x01\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\"1\n" +
+	"\x14GetUsersByIDsRequest\x12\x19\n" +
+	"\buser_ids\x18\x01 \x03(\x03R\auserIds\"\x96\x01\n" +
 	"\x11GetUserInfoResult\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
@@ -163,9 +253,12 @@ const file_proto_user_proto_rawDesc = "" +
 	"\x05phone\x18\x04 \x01(\tR\x05phone\x12\x1d\n" +
 	"\n" +
 	"avatar_url\x18\x05 \x01(\tR\tavatarUrl\x12\x12\n" +
-	"\x04role\x18\x06 \x01(\tR\x04role2W\n" +
+	"\x04role\x18\x06 \x01(\tR\x04role\"D\n" +
+	"\x13GetUsersByIDsResult\x12-\n" +
+	"\x05users\x18\x01 \x03(\v2\x17.user.GetUserInfoResultR\x05users2\x9f\x01\n" +
 	"\vUserService\x12H\n" +
-	"\x13GetUserInfoByUserID\x12\x18.user.GetUserInfoRequest\x1a\x17.user.GetUserInfoResultB\x15Z\x13proto/userpb;userpbb\x06proto3"
+	"\x13GetUserInfoByUserID\x12\x18.user.GetUserInfoRequest\x1a\x17.user.GetUserInfoResult\x12F\n" +
+	"\rGetUsersByIDs\x12\x1a.user.GetUsersByIDsRequest\x1a\x19.user.GetUsersByIDsResultB\x15Z\x13proto/userpb;userpbb\x06proto3"
 
 var (
 	file_proto_user_proto_rawDescOnce sync.Once
@@ -179,19 +272,24 @@ func file_proto_user_proto_rawDescGZIP() []byte {
 	return file_proto_user_proto_rawDescData
 }
 
-var file_proto_user_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_proto_user_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_proto_user_proto_goTypes = []any{
-	(*GetUserInfoRequest)(nil), // 0: user.GetUserInfoRequest
-	(*GetUserInfoResult)(nil),  // 1: user.GetUserInfoResult
+	(*GetUserInfoRequest)(nil),   // 0: user.GetUserInfoRequest
+	(*GetUsersByIDsRequest)(nil), // 1: user.GetUsersByIDsRequest
+	(*GetUserInfoResult)(nil),    // 2: user.GetUserInfoResult
+	(*GetUsersByIDsResult)(nil),  // 3: user.GetUsersByIDsResult
 }
 var file_proto_user_proto_depIdxs = []int32{
-	0, // 0: user.UserService.GetUserInfoByUserID:input_type -> user.GetUserInfoRequest
-	1, // 1: user.UserService.GetUserInfoByUserID:output_type -> user.GetUserInfoResult
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	2, // 0: user.GetUsersByIDsResult.users:type_name -> user.GetUserInfoResult
+	0, // 1: user.UserService.GetUserInfoByUserID:input_type -> user.GetUserInfoRequest
+	1, // 2: user.UserService.GetUsersByIDs:input_type -> user.GetUsersByIDsRequest
+	2, // 3: user.UserService.GetUserInfoByUserID:output_type -> user.GetUserInfoResult
+	3, // 4: user.UserService.GetUsersByIDs:output_type -> user.GetUsersByIDsResult
+	3, // [3:5] is the sub-list for method output_type
+	1, // [1:3] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_proto_user_proto_init() }
@@ -205,7 +303,7 @@ func file_proto_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_user_proto_rawDesc), len(file_proto_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

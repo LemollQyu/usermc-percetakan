@@ -224,3 +224,13 @@ func (r *UserRepository) UpdateUser(ctx context.Context, user *models.User) erro
 
 	return err
 }
+
+func (r *UserRepository) GetUsersByIDs(ctx context.Context, ids []int64) ([]*models.User, error) {
+	var users []*models.User
+
+	err := r.Database.WithContext(ctx).
+		Where("id IN ?", ids).
+		Find(&users).Error
+
+	return users, err
+}

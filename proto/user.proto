@@ -8,6 +8,10 @@ message GetUserInfoRequest {
     int64 user_id = 1;
 }
 
+message GetUsersByIDsRequest {
+    repeated int64 user_ids = 1;
+}
+
 message GetUserInfoResult {
     int64 id = 1;
     string name = 2;
@@ -17,7 +21,18 @@ message GetUserInfoResult {
     string role = 6;
 }
 
+message GetUsersByIDsResult {
+    repeated GetUserInfoResult users = 1;
+}
+
 service UserService {
     rpc GetUserInfoByUserID(GetUserInfoRequest)
         returns (GetUserInfoResult);
+
+    rpc GetUsersByIDs(GetUsersByIDsRequest)
+        returns (GetUsersByIDsResult);
 }
+
+
+
+

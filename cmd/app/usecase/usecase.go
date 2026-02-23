@@ -311,6 +311,7 @@ func (uc *UserUsecase) LoginWithGoogle(
 	// Generate JWT
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id": user.ID,
+		"role":    "user",
 		"exp":     utils.GenerateExpiryUnix(3),
 	})
 
@@ -385,4 +386,13 @@ func (uc *UserUsecase) LoginAdmin(
 	}
 
 	return tokenString, nil
+}
+
+func (uc *UserUsecase) GetUsersByIDs(ctx context.Context, ids []int64) ([]*models.User, error) {
+	data, err := uc.UserService.GetUsersByIDs(ctx, ids)
+	if err != nil {
+		log.Logger.Error("uc.UserService.GetUsersByIDs", ids)
+		return nil, err
+	}
+	return data, nil
 }

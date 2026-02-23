@@ -224,3 +224,13 @@ func (svc *UserService) ChangePassword(ctx context.Context, userID int64, hashed
 func (svc *UserService) UpdateUser(ctx context.Context, user *models.User) error {
 	return svc.UserRepo.UpdateUser(ctx, user)
 }
+
+func (svc *UserService) GetUsersByIDs(ctx context.Context, ids []int64) ([]*models.User, error) {
+	data, err := svc.UserRepo.GetUsersByIDs(ctx, ids)
+	if err != nil {
+		log.Logger.Error("svc.UserRepo.GetUsersByIDs")
+		return nil, err
+	}
+
+	return data, nil
+}

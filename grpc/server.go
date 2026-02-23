@@ -32,6 +32,34 @@ func (s *GRPCServer) GetUserInfoByUserID(
 	}, nil
 }
 
+func (s *GRPCServer) GetUsersByIDs(
+	ctx context.Context,
+	req *userpb.GetUsersByIDsRequest,
+) (*userpb.GetUsersByIDsResult, error) {
+
+	users, err := s.UserUsecase.GetUsersByIDs(ctx, req.UserIds)
+	if err != nil {
+		return nil, err
+	}
+
+	var res []*userpb.GetUserInfoResult
+
+	for _, u := range users {
+		res = append(res, &userpb.GetUserInfoResult{
+			Id:        u.ID,
+			Name:      u.Name,
+			Email:     u.Email,
+			Phone:     derefString(u.Phone),
+			AvatarUrl: derefString(u.AvatarURL),
+			Role:      u.Role,
+		})
+	}
+
+	return &userpb.GetUsersByIDsResult{
+		Users: res,
+	}, nil
+}
+
 func derefString(s *string) string {
 	if s == nil {
 		return ""
